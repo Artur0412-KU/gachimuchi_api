@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from uuid import UUID
 from fastapi.encoders import jsonable_encoder
 from app.core.supabase_client import supabase
@@ -9,6 +9,12 @@ router = APIRouter()
 @router.get('/', response_model=list[Quote])
 def get_quotes():
     res = supabase.table('quote').select('*').execute()
+    return res.data
+
+# search
+@router.get('/search-quote')
+def search_quote(name: str = Query(description='Search quote')):
+    res = supabase.table('quote').select('text').ilike('text', f"{name}%").execute()
     return res.data
 
 @router.post('/{character_id}')
