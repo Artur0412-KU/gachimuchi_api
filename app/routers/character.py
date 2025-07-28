@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from uuid import UUID
 from fastapi.encoders import jsonable_encoder
+from typing import Optional
 from app.core.supabase_client import supabase
 from app.models.character import Character, CharacterUpdate
 
@@ -9,6 +10,25 @@ router = APIRouter()
 @router.get('/', response_model=list[Character])
 def get_characters():
     res = supabase.table('character').select('*').execute()
+    return res.data
+
+# search
+@router.get('/search-character')
+def search_character(
+    name: Optional[str] = Query(None, description="Search by name"), 
+    surname: Optional[str] = Query(None, description="Search by surname"),
+    nickname: Optional[str] = Query(None, description="Search by nickname"),
+):
+    query = supabase.table("character").select('name, surname, nickname, image_url')
+
+    if name:
+        query = query.ilike('name', f'{name}%')  # пошук з початку слова
+    if surname:
+        query = query.ilike('surname', f'{surname}%')
+    if nickname:
+        query = query.ilike('nickname', f'{nickname}%')
+
+    res = query.execute()
     return res.data
 
 @router.post('/')

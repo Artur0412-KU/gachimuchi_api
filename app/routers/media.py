@@ -1,14 +1,23 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from uuid import UUID
 from fastapi.encoders import jsonable_encoder
 from app.core.supabase_client import supabase
 from app.models.media import Media, UpdateMedia
+from typing import Optional
 
 router = APIRouter()
 
 @router.get('/', response_model=list[Media])
 def get_media():
     res = supabase.table('media').select('*').execute()
+    return res.data
+
+# search
+@router.get('/search-media')
+def search_media(
+    title: Optional[str] = Query(description="Search a name of media"),
+):
+    res = supabase.table('media').select('title, file_url').ilike('title', f"{title}%").execute()
     return res.data
 
 # add a media with a character id

@@ -5,7 +5,7 @@ from uuid import UUID
 
 class Media(BaseModel):
     title: str
-    file_url: HttpUrl
+    file_url: Optional[HttpUrl]
     character_id: Optional[UUID] = None
     created_at: Optional[date] = None
 
