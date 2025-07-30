@@ -31,7 +31,7 @@
     
     <!-- Quote -->
     <blockquote class="border-l-4 border-gray-300 pl-3 sm:pl-4 text-gray-600 italic text-base sm:text-lg md:text-xl mb-6 sm:mb-8 max-w-xs sm:max-w-md md:max-w-2xl mx-auto">
-      <p class="font-medium">"♂ASS WE CAN!♂"</p>
+      <p class="font-medium">"♂Do you like what you see?♂"</p>
     </blockquote>
     
     <!-- CTA Button -->
