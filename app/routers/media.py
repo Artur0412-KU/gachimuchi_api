@@ -41,7 +41,7 @@ def add_media_without_character(media: UpdateMedia):
 
 # update media
 @router.patch('/{id}')
-def updtae_media(id: UUID, media: UpdateMedia):
+def update_media(id: UUID, media: UpdateMedia):
     update_media = jsonable_encoder(media)
 
     if not update_media:
